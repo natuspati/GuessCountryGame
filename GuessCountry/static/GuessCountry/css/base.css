@@ -1,0 +1,13 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #8A9EA0;
+}
+
+.content-block {
+    background-color: #DFDBD0 !important;
+}

@@ -1,9 +1,25 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 
 
-# Create your models here.
-class Region(models.Model):
+# Note table that contains comments on user scores or countries.
+class Note(models.Model):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+    created_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return "{} noted: {}".format(self.creator.username, self.content)
+
+
+class Country(models.Model):
     REGIONS = (
         ('EU', 'Europe'),
         ('AS', 'Asia'),
@@ -12,19 +28,13 @@ class Region(models.Model):
         ('AQ', 'Antarctic'),
     )
     
-    name = models.CharField(max_length=50, choices=REGIONS)
-    
-    def __str__(self):
-        return self.name
-
-
-class Country(models.Model):
     name = models.CharField(max_length=100)
     capital = models.CharField(max_length=100)
-    region = models.ForeignKey(Region, on_delete=models.PROTECT)
+    region = models.CharField(max_length=100, choices=REGIONS)
     population = models.IntegerField(validators=[MinValueValidator(0)])
     flag = models.URLField(max_length=200)
     modified_at = models.DateTimeField(auto_now=True)
+    notes = GenericRelation(Note)
     
     class Meta:
         ordering = ['name']
@@ -36,4 +46,16 @@ class Country(models.Model):
         ]
     
     def __str__(self):
-        return self.name
+        return self.username
+
+
+class Score(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    countries = models.ManyToManyField(Country)
+    value = models.PositiveIntegerField(default=0)
+    notes = GenericRelation(Note)
+    
+    def __str__(self):
+        return "User: {}, score: {}".format(self.user.username, self.value)
