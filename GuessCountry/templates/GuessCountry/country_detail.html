@@ -1,0 +1,9 @@
+{% extends '_base.html' %}
+{% load extras %}
+{% block content %}
+    {% row 'border-bottom'%}
+        <div class="col">
+            {{ country|country_details:True }}
+        </div>
+    {% endrow %}
+{% endblock %}

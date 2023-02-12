@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+{% load extras %}
+{% block content %}
+    <h2>List of countries</h2>
+    {% for country in country_list %}
+        <li>
+            <a href="{% url 'game:country_detail' country.slug %}">{{ country.name }}</a>
+        </li>
+    {% endfor %}
+{% endblock %}
