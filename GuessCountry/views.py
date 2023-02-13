@@ -30,6 +30,7 @@ class CountryListView(ListView):
 
 class CountryDetailView(DetailView):
     model = Country
+    template_name = 'GuessCountry/country_detail.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
