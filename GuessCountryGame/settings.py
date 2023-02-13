@@ -121,6 +121,60 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
     
     DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+    
+    # Logging settings
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'filters': {
+            'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse',
+            },
+        },
+        'formatters': {
+            'simple': {
+                'format': '{levelname} {message}',
+                'style': '{',
+            },
+            'verbose': {
+                'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'stream': 'ext://sys.stdout',
+                'formatter': 'simple',
+            },
+            'mail_admins': {
+                'level': 'ERROR',
+                'class': 'django.utils.log.AdminEmailHandler',
+                'filters': ['require_debug_false'],
+                'formatter': 'verbose',
+            },
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': BASE_DIR / 'var/debug.log',
+                'formatter': 'verbose'
+            },
+        },
+        'loggers': {
+            'django.request': {
+                'handlers': ['mail_admins'],
+                'level': 'ERROR',
+                'propagate': True,
+            },
+            'GuessCountry': {
+                'handlers': ['console', 'file'],
+                'level': 'DEBUG',
+                'propagate': True  # Change to False in production environment
+            },
+        },
+    }
+    
+    ADMINS = values.SingleNestedTupleValue()
 
 
 class Prod(Dev):

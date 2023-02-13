@@ -3,6 +3,9 @@ from django.views.generic import TemplateView, ListView, DetailView
 from GuessCountry.models import Country
 
 import random
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -18,6 +21,8 @@ class IndexView(TemplateView):
         
         countries = list(Country.objects.all())
         context['country'] = random.choice(countries)
+        
+        logger.debug(f'Shown country: {context["country"].name}')
         return context
 
 
@@ -35,7 +40,7 @@ class CountryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
+
 # TODO: put info logger on get requests for country
 # TODO: put critical logger on post requests (monthly updates)
 # TODO: add monthly scheduled task for PUT/PATCH requests
