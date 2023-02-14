@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView, ListView, DetailView
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from GuessCountry.models import Country
 
@@ -26,6 +28,7 @@ class IndexView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(24 * 60 * 60), name='dispatch')
 class CountryListView(ListView):
     model = Country
     queryset = Country.objects.order_by('name')
@@ -33,6 +36,7 @@ class CountryListView(ListView):
     template_name = 'GuessCountry/country_list.html'
 
 
+@method_decorator(cache_page(24 * 60 * 60), name='dispatch')
 class CountryDetailView(DetailView):
     model = Country
     template_name = 'GuessCountry/country_detail.html'
@@ -41,7 +45,6 @@ class CountryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         return context
 
-# TODO: put info logger on get requests for country
-# TODO: put critical logger on post requests (monthly updates)
+# TODO: add argon password hashing
 # TODO: add monthly scheduled task for PUT/PATCH requests
 # TODO: add redis middleware to django apps

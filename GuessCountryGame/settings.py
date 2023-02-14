@@ -43,6 +43,8 @@ class Dev(Configuration):
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'GuessCountry.apps.GuesscountryConfig',
+        
+        'cache_fallback',  # Set fallback cache backend.
     ]
     
     MIDDLEWARE = [
@@ -175,8 +177,45 @@ class Dev(Configuration):
     }
     
     ADMINS = values.SingleNestedTupleValue()
+    
+    # Password hashing settings
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.Argon2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+        'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+        'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    ]
+    
+    # Caching settings
+    # For Dev environment, use dummy caching.
+    CACHES = {
+        'default': {
+            'BACKEND':
+                'django.core.cache.backends.dummy.DummyCache',
+        },
+    }
 
 
 class Prod(Dev):
     DEBUG = False
     SECRET_KEY = values.SecretValue()
+    
+    # For Prod environment, use memcached with fallback on file cache.
+    CACHES = {
+        'default': {
+            'BACKEND': 'cache_fallback.FallbackCache',
+        },
+        
+        'main_cache': {
+            'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+            'LOCATION': '/var/memcached.sock',
+            'TIMEOUT': 600,
+        },
+        'fallback_cache': {
+            'BACKEND':
+                'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': '/var/django_cache',
+            'TIMEOUT': 600,
+        }
+        
+    }

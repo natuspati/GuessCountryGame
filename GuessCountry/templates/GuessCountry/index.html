@@ -1,10 +1,12 @@
 {% extends "_base.html" %}
-{% load extras %}
+{% load extras cache %}
 {% block content %}
     <p>Logged in user: {{ user|user_details:request.user }}</p>
-    {% row 'border-bottom'%}
+    {% row 'border-bottom' %}
         <div class="col">
-            {{ country|country_details:False }}
+            {% cache 3600 daily_country %}
+                {{ country|country_details:False }}
+            {% endcache %}
         </div>
     {% endrow %}
 {% endblock %}

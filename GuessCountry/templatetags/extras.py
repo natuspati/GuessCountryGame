@@ -78,3 +78,8 @@ def country_details(country, name_visible=True):
         return format_html('{}{}{}{}{}',
                            capital, region, population,
                            flag, name)
+
+
+@register.filter
+def hours_to_sec(value):
+    return value * 60 * 60
