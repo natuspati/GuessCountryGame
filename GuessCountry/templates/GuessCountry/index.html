@@ -1,5 +1,5 @@
 {% extends "_base.html" %}
-{% load extras cache %}
+{% load GuessCountry_tags cache %}
 {% block content %}
     <p>Logged in user: {{ user|user_details:request.user }}</p>
     {% row 'border-bottom' %}

@@ -48,7 +48,7 @@ class Country(models.Model):
         indexes = [
             models.Index(fields=['name'])
         ]
-
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
@@ -70,4 +70,4 @@ class Score(models.Model):
     notes = GenericRelation(Note)
     
     def __str__(self):
-        return "User: {}, score: {}".format(self.user.username, self.value)
+        return f"{self.__class__.__name__} object for {self.user}"

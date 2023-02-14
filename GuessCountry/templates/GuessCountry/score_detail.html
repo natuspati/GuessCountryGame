@@ -1,0 +1,10 @@
+{% extends "_base.html" %}
+{% load GuessCountry_tags %}
+{% block title %}Score{% endblock %}
+{% block content %}
+    {% row %}
+        <p>Logged in as {{ request.user }}.</p>
+{#        <p><a href="{% url 'logout' %}">Log Out</a></p>#}
+        <p>Score: {{ score_value }}</p>
+    {% endrow %}
+{% endblock content %}

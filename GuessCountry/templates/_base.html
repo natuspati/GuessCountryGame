@@ -44,11 +44,13 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link mx-2" href="{% url 'game:country_list' %}"><i class="bi bi-archive"></i>Country List</a>
+                                <a class="nav-link mx-2" href="{% url 'game:country_list' %}"><i
+                                        class="bi bi-archive"></i>Country List</a>
                             </li>
                             {% if request.user.is_active %}
                                 <li class="nav-item">
-                                    <a class="nav-link mx-2" href="#"><i class="bi bi-file-person"></i>Profile</a>
+                                    <a class="nav-link mx-2" href="{% url 'GuessCountry:score' %}"><i
+                                            class="bi bi-file-person"></i>Score</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link mx-2" href="#"><i class="bi bi-box-arrow-right"></i>Log Out</a>
@@ -61,17 +63,22 @@
                                     <a class="nav-link mx-2" href="#"><i class="bi bi-box-arrow-in-right"></i>Log In</a>
                                 </li>
                             {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-2" href="{% url 'GuessCountry:scoreboard' %}">
+                                    <i class="bi bi-box-arrow-right"></i>Scoreboard
+                                </a>
+                            </li>
                             {% if request.user.is_staff %}
                                 <li class="nav-item">
                                     <a class="nav-link mx-2" href="{% url "admin:index" %}">
                                         <i class="bi bi-gear"></i>Admin
                                     </a>
                                 </li>
-{#                                <li class="nav-item">#}
-{#                                    <a class="nav-link mx-2" href="{% url "quiz:api-root" %}">#}
-{#                                        <i class="bi bi-journal"></i>API#}
-{#                                    </a>#}
-{#                                </li>#}
+                                {#                                <li class="nav-item">#}
+                                {#                                    <a class="nav-link mx-2" href="{% url "quiz:api-root" %}">#}
+                                {#                                        <i class="bi bi-journal"></i>API#}
+                                {#                                    </a>#}
+                                {#                                </li>#}
                             {% endif %}
                         </ul>
                     </div>

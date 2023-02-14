@@ -42,6 +42,9 @@ class Dev(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+    
+        'custom_auth',
+        
         'GuessCountry.apps.GuesscountryConfig',
         
         'cache_fallback',  # Set fallback cache backend.
@@ -72,6 +75,10 @@ class Dev(Configuration):
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
                 ],
+                'libraries': {
+                    'GuessCountry_tags': 'GuessCountry.templatetags.extras',
+                    'admin.urls': 'django.contrib.admin.templatetags.admin_urls',
+                },
             },
         },
     ]
@@ -117,7 +124,7 @@ class Dev(Configuration):
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
     
-    STATIC_URL = 'static/'
+    STATIC_URL = 'GuessCountry/static/'
     
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -194,6 +201,9 @@ class Dev(Configuration):
                 'django.core.cache.backends.dummy.DummyCache',
         },
     }
+
+    # Custom authentication settings
+    AUTH_USER_MODEL = 'custom_auth.User'
 
 
 class Prod(Dev):

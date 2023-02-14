@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+{% load GuessCountry_tags %}
+{% block content %}
+    <h2>Scoreboard</h2>
+    {% for score in score_list %}
+        <li>
+            <p>{{ score.user.email }}: {{ score.value }}</p>
+        </li>
+    {% endfor %}
+{% endblock %}
