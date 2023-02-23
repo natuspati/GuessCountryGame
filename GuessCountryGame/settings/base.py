@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'custom_auth',
     
     'GuessCountry.apps.GuesscountryConfig',
-    
+
     'cache_fallback',  # Set fallback cache backend.
     
     'crispy_forms',
@@ -92,7 +92,6 @@ STATIC_URL = 'GuessCountry/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Logging settings
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -146,7 +145,6 @@ LOGGING = {
 
 ADMINS = values.SingleNestedTupleValue()
 
-# Password hashing settings
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
@@ -154,18 +152,21 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
-
-# Custom authentication and registration settings
+# Custom authentication and registration
 AUTH_USER_MODEL = 'custom_auth.User'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_REDIRECT_URL = 'GuessCountry:score'
 LOGOUT_REDIRECT_URL = 'GuessCountry:index'
 
-# Crispy forms settings
+# Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-# Celery settings
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'

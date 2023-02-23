@@ -133,3 +133,6 @@ dmypy.json
 
 # Depreciated directory
 depreciaated/
+
+# Redis
+*.rdb
