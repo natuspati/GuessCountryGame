@@ -7,6 +7,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from GuessCountry.models import Country, Score
 
+from django.core.mail import send_mail, mail_admins
+from django.conf import settings
+from django.shortcuts import redirect
+
 import random
 import logging
 
@@ -24,6 +28,7 @@ class IndexView(TemplateView):
         context['country'] = random.choice(countries)
         
         logger.debug(f'Shown country: {context["country"].name}')
+
         return context
 
 

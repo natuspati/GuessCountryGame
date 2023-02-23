@@ -53,14 +53,20 @@
                                             class="bi bi-file-person"></i>Score</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-2" href="#"><i class="bi bi-box-arrow-right"></i>Log Out</a>
+                                    <a class="nav-link mx-2" href="{% url 'logout' %}">
+                                        <i class="bi bi-box-arrow-right"></i>Log Out
+                                    </a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link mx-2" href="#"><i class="bi bi-person-fill-add"></i>Register</a>
+                                    <a class="nav-link mx-2" href="{% url 'custom_auth:register' %}">
+                                        <i class="bi bi-person-fill-add"></i>Register
+                                    </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-2" href="#"><i class="bi bi-box-arrow-in-right"></i>Log In</a>
+                                    <a class="nav-link mx-2" href="{% url 'login' %}">
+                                        <i class="bi bi-box-arrow-in-right"></i>Log In
+                                    </a>
                                 </li>
                             {% endif %}
                             <li class="nav-item">
