@@ -136,3 +136,6 @@ depreciaated/
 
 # Redis
 *.rdb
+
+# Celery
+celerybeat-schedule.db

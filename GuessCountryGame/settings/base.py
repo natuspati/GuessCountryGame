@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'GuessCountry.apps.GuesscountryConfig',
 
     'cache_fallback',  # Set fallback cache backend.
-    
+    'django_celery_beat',  # Store periodic tasks in database and manage from admin panel
+
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -82,7 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
@@ -169,4 +170,4 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
+CELERY_TIMEZONE = 'Asia/Almaty'

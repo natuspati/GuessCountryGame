@@ -4,6 +4,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.exceptions import ObjectDoesNotExist
 
 from GuessCountry.models import Country, Score
 
@@ -25,9 +26,9 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         
         countries = list(Country.objects.all())
-        context['country'] = random.choice(countries)
-        
-        logger.debug(f'Shown country: {context["country"].name}')
+        if countries:
+            context['country'] = random.choice(countries)
+            logger.debug(f'Shown country: {context["country"].name}')
 
         return context
 
@@ -52,8 +53,11 @@ class ScoreView(TemplateView):
     
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        user_score = Score.objects.get(user_id=request.user.id)
-        context['score_value'] = user_score.value
+        try:
+            user_score = Score.objects.get(user_id=request.user.id)
+            context['score_value'] = user_score.value
+        except ObjectDoesNotExist:
+            context['score_value'] = 'No score'
         return self.render_to_response(context)
 
 
