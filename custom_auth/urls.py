@@ -7,5 +7,4 @@ app_name = 'custom_auth'
 
 urlpatterns = [
     path('accounts/register', RegistrationView.as_view(form_class=CustomRegistrationForm), name='register'),
-    path('accounts/', include('django_registration.backends.activation.urls'))
 ]

@@ -163,6 +163,7 @@ LOGOUT_REDIRECT_URL = 'GuessCountry:index'
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_FAIL_SILENTLY = False
 
 # Celery
 CELERY_BROKER_URL = 'redis://localhost:6379'

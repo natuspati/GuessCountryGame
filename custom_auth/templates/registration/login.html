@@ -1,9 +1,9 @@
-{% extends "_base.html" %}
+{% extends '_base.html' %}
 {% load crispy_forms_tags extras %}
 {% block title %}Log In{% endblock %}
 {% block content %}
-    {% row "justify-content-center" %}
-        {% col "col-md-6" %}
+    {% row 'justify-content-center' %}
+        {% col 'col-md-6' %}
             {% if next %}
                 {% if user.is_authenticated %}
                     <p>Your account doesn't have access to this page. To proceed,
@@ -15,16 +15,16 @@
         {% endcol %}
     {% endrow %}
 
-    {% row "justify-content-center" %}
-        {% col "col-md-6" %}
-            <form method="post" action="{% url "login" %}">
+    {% row 'justify-content-center' %}
+        {% col 'col-md-6' %}
+            <form method='post' action='{% url 'login' %}'>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-primary">Log In</button>
-                <input type="hidden" name="next" value="{{ next }}">
+                <button type='submit' class='btn btn-primary'>Log In</button>
+                <input type='hidden' name='next' value='{{ next }}'>
             </form>
 
-            <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            <p><a href='{% url 'password_reset' %}'>Lost password?</a></p>
         {% endcol %}
     {% endrow %}
 {% endblock %}
