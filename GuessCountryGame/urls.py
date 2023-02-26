@@ -1,4 +1,4 @@
-"""GuessCountryGame URL Configuration
+'''GuessCountryGame URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -12,14 +12,15 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+'''
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django_registration.backends.activation.urls')),
-    path("accounts/", include("django.contrib.auth.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('', include('GuessCountry.urls', namespace='game')),
     path('', include('custom_auth.urls', namespace='custom_auth')),
 ]

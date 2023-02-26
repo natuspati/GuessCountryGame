@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     
     'custom_auth',
@@ -20,7 +21,12 @@ INSTALLED_APPS = [
     'GuessCountry.apps.GuesscountryConfig',
 
     'cache_fallback',  # Set fallback cache backend.
-    'django_celery_beat',  # Store periodic tasks in database and manage from admin panel
+    'django_celery_beat',  # Store periodic tasks in database and manage from admin panel.
+    
+    'allauth',  # Implement OAuth client.
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     'crispy_forms',
     'crispy_bootstrap5',
@@ -69,7 +75,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    },*
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
@@ -172,3 +178,10 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Almaty'
+
+# OAuth
+SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
