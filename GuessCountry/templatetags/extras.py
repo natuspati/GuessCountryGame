@@ -69,7 +69,7 @@ def country_details(country, name_visible=True):
     flag = format_html('<p><img src={} class="img-thumbnail"></p>', country.flag)
     
     if name_visible:
-        name = format_html('', country.name)
+        name = format_html('<h2>{}</h2>', country.name)
         formatted_date = country.modified_at.strftime("%d-%b-%y")
         last_updated = format_html('<p>Last updated: {}</p>', formatted_date)
         

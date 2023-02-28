@@ -1,1 +1,0 @@
-Activate your Guess Country account! You have {{ expiration_days }} days!

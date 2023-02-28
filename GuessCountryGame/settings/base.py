@@ -9,6 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -19,15 +25,10 @@ INSTALLED_APPS = [
     'custom_auth',
     
     'GuessCountry.apps.GuesscountryConfig',
-
+    
     'cache_fallback',  # Set fallback cache backend.
     'django_celery_beat',  # Store periodic tasks in database and manage from admin panel.
     
-    'allauth',  # Implement OAuth client.
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
     'crispy_forms',
     'crispy_bootstrap5',
 ]
@@ -47,7 +48,11 @@ ROOT_URLCONF = 'GuessCountryGame.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'GuessCountry/templates', BASE_DIR / 'custom_auth']
+        'DIRS': [
+            BASE_DIR / 'templates',
+            BASE_DIR / 'GuessCountry/templates',
+            BASE_DIR / 'custom_auth/templates',
+        ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -75,7 +80,7 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },*
+    },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
@@ -161,8 +166,22 @@ PASSWORD_HASHERS = [
 
 # Custom authentication and registration
 AUTH_USER_MODEL = 'custom_auth.User'
-ACCOUNT_ACTIVATION_DAYS = 7
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # one day
+ACCOUNT_LOGOUT_REDIRECT_URL = 'GuessCountry:index'
 LOGIN_REDIRECT_URL = 'GuessCountry:score'
 LOGOUT_REDIRECT_URL = 'GuessCountry:index'
 
@@ -178,10 +197,3 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Almaty'
-
-# OAuth
-SITE_ID = 1
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'

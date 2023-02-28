@@ -1,7 +1,0 @@
-You registered for Guess Country game. Please activate your account within {{ expiration_days }}
-by clicking the following link:
-
-{{ scheme }}://{{ request.get_host }}{% url "django_registration_activate" activation_key %}
-
-Thanks,
-Guess Country Team.
