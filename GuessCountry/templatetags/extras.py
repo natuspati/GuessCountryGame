@@ -77,17 +77,8 @@ def country_details(country, name_visible=True):
                            name, capital, region,
                            population, flag, last_updated)
     else:
-        name = format_html(
-            '''
-            <details>
-                <summary>Mystery country</summary>
-                <h2>{}</h2>
-            </details>
-            ''',
-            country.name)
-        return format_html('{}{}{}{}{}',
-                           capital, region, population,
-                           flag, name)
+        return format_html('{}{}{}{}',
+                           capital, region, population, flag)
 
 
 @register.filter

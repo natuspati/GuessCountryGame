@@ -200,3 +200,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Almaty'
+
+# Session cookies
+SESSION_COOKIE_AGE = 24 * 60 * 60  # 1 day

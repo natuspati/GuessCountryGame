@@ -1,0 +1,16 @@
+<div>
+    <h1>{{ result }}</h1>
+</div>
+
+{% if request.session.finished %}
+    <div class="col-8 col-md-6 col-xl-3  mx-auto" id="answer-form" hx-swap-oob="true">
+        <form>
+            <label for="country_name" class="form-label">Enter country name</label>
+            <div class="input-group mb-3">
+                <input name="country_name" type="text" class="form-control" id="country_name"
+                       placeholder="Enter country name" disabled>
+                <button type="submit" class="btn btn-primary" id="index_submit_btn" disabled>Submit</button>
+            </div>
+        </form>
+    </div>
+{% endif %}

@@ -1,6 +1,8 @@
 from django.urls import path
 
-from GuessCountry.views import IndexView, CountryListView, CountryDetailView, ScoreView, ScoreboardView
+from GuessCountry.views import (
+    IndexView, CountryListView, CountryDetailView, ScoreView, ScoreboardView, CountryCheckView
+)
 
 app_name = 'GuessCountry'
 
@@ -10,4 +12,5 @@ urlpatterns = [
     path('country/<slug:slug>/', CountryDetailView.as_view(), name='country_detail'),
     path('score/', ScoreView.as_view(), name='score'),
     path('scoreboard/', ScoreboardView.as_view(), name='scoreboard'),
+    path('country_check', CountryCheckView.as_view(), name='country_check'),
 ]

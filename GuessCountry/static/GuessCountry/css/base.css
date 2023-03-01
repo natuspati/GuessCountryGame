@@ -4,6 +4,8 @@
     padding: 0;
 }
 
+#content-div { padding-top: 10px; }
+
 .navbar {
     background-color: #8A9EA0;
 }
@@ -15,3 +17,11 @@
 i {
   margin-right: 10px;
 }
+
+#index_submit_btn {
+}
+
+
+/*label[for="country_name"] {*/
+/*    display: none;*/
+/*}*/

@@ -1,6 +1,6 @@
 import os
-from datetime import timedelta
 from celery import Celery
+from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GuessCountryGame.settings.dev')
 
@@ -10,15 +10,13 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-
-@app.task(bind=True)
-def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
-
-
 app.conf.beat_schedule = {
     'remove-inactive-users-weekly': {
         'task': 'remove_inactive',
-        'schedule': timedelta(days=7),
+        'schedule': crontab(hour=0, minute=0, day_of_week="sunday"),
+    },
+    'session-cleanup': {
+        'task': 'clear_sessions',
+        'schedule': crontab(hour=0, minute=0, day_of_week="sunday"),
     },
 }
