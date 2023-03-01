@@ -6,10 +6,12 @@ from django.urls import reverse
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
+from custom_auth.models import User
+
 
 # Note table that contains comments on user scores or countries.
 class Note(models.Model):
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -18,7 +20,8 @@ class Note(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return "{} noted: {}".format(self.creator.name, self.content)
+        formatted_date = self.modified_at.strftime("%Y-%m-%d%H:%M:%S")
+        return "{} noted: {} on {}".format(self.creator.email, self.content, formatted_date)
 
 
 class Country(models.Model):
@@ -62,7 +65,7 @@ class Country(models.Model):
 
 
 class Score(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     modified_at = models.DateTimeField(auto_now=True)
     countries = models.ManyToManyField(Country)

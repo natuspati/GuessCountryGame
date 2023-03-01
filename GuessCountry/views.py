@@ -68,6 +68,3 @@ class ScoreboardView(ListView):
     context_object_name = 'score_list'
     template_name = 'GuessCountry/score_list.html'
 
-# TODO: add argon password hashing
-# TODO: add monthly scheduled task for PUT/PATCH requests
-# TODO: add redis middleware to django apps

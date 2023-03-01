@@ -7,3 +7,5 @@ class GuesscountryConfig(AppConfig):
     
     def ready(self):
         import GuessCountry.celery
+        import GuessCountry.signals
+        

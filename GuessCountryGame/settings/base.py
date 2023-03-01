@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     
     'crispy_forms',
     'crispy_bootstrap5',
+    
+    'django_inlinecss',  # Include css styles in-line to enable correct allauth templates
 ]
 
 MIDDLEWARE = [
@@ -100,7 +102,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'GuessCountry/static/'
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'GuessCountry/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
