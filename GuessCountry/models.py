@@ -42,6 +42,7 @@ class Country(models.Model):
     flag = models.URLField(max_length=200)
     modified_at = models.DateTimeField(auto_now=True)
     notes = GenericRelation(Note)
+    to_be_used_at = models.DateField(null=True)
     
     class Meta:
         ordering = ['name']

@@ -1,6 +1,9 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.templatetags.static import static
+
 from allauth.socialaccount.signals import pre_social_login
+
 from custom_auth.models import User
 from GuessCountry.models import Score, Note
 
@@ -26,3 +29,5 @@ def create_note_social_login(sender, request, sociallogin, **kwargs):
         content_object=noted_user,
     )
     note.save()
+
+# TODO: write and store a query set of countries to be displayed and display them every day.

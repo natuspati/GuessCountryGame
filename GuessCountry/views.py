@@ -31,7 +31,10 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         request.session['num_tries'] = 5
-        if not request.session['finished']:
+        try:
+            if not request.session['finished']:
+                request.session['finished'] = False
+        except KeyError:
             request.session['finished'] = False
         return self.render_to_response(context)
 

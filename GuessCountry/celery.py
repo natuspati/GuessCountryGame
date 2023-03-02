@@ -19,4 +19,8 @@ app.conf.beat_schedule = {
         'task': 'clear_sessions',
         'schedule': crontab(hour=0, minute=0, day_of_week="sunday"),
     },
+    'debug-task': {
+        'task': 'debug_task',
+        'schedule': 10.0,
+    },
 }
