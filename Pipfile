@@ -54,6 +54,7 @@ cssutils = "==2.6.0"
 defusedxml = "==0.7.1"
 distlib = "==0.3.6"
 django-allauth = "==0.52.0"
+djangorestframework = "*"
 
 [dev-packages]
 

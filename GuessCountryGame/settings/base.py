@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'cache_fallback',  # Set fallback cache backend.
     'django_celery_beat',  # Store periodic tasks in database and manage from admin panel.
     
+    'rest_framework',
+    
     'crispy_forms',
     'crispy_bootstrap5',
     
@@ -203,3 +205,6 @@ CELERY_TIMEZONE = 'Asia/Almaty'
 
 # Session cookies
 SESSION_COOKIE_AGE = 24 * 60 * 60  # 1 day
+
+# Game rules
+MAX_NUM_TRIES = 3

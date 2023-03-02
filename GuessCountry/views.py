@@ -1,12 +1,15 @@
-from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from django.utils import timezone
 
 from GuessCountry.models import Country, Score
+from GuessCountry.api.serializers import CountrySerializer
 
 import random
 import logging
@@ -21,21 +24,28 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        countries = list(Country.objects.all())
-        if countries:
-            context['country'] = random.choice(countries)
-            logger.debug(f'Shown country: {context["country"].name}')
+        # Select a mystery country for today, if there's none, pick a random country
+        today = timezone.now()
+        mystery_country = Country.objects.filter(to_be_used_at=today).first()
+        if mystery_country:
+            context['country'] = mystery_country
+        else:
+            number_of_countries = Country.objects.count()
+            random_idx = random.randrange(0, number_of_countries)
+            context['country'] = Country.objects.all()[random_idx]
         
         return context
     
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        request.session['num_tries'] = 5
-        try:
-            if not request.session['finished']:
-                request.session['finished'] = False
-        except KeyError:
-            request.session['finished'] = False
+        # Enable this options in productions instead
+        # request.session.setdefault('num_tries', 0)
+        # request.session.setdefault('finished', False)
+        request.session['num_tries'] = 0
+        request.session['finished'] = False
+        
+        # Keep country information in session
+        request.session['country_data'] = CountrySerializer(context['country']).data
         return self.render_to_response(context)
 
 
@@ -81,7 +91,7 @@ class CountryCheckView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         # Check if user has remaining tries.
-        if request.session['num_tries'] > 0:
+        if request.session['num_tries'] <= settings.MAX_NUM_TRIES:
             guessed_country_name = request.GET['country_name']
             mystery_country_pk = int(request.GET['mystery_country_pk'])
             guessed_country = Country.objects.filter(name__iexact=guessed_country_name).first()
@@ -91,13 +101,15 @@ class CountryCheckView(TemplateView):
                 if guessed_country.pk == mystery_country_pk:
                     context['result'] = 'Correct! The answer is {}'.format(guessed_country.name)
                     request.session['finished'] = True
+                    request.session['num_tries'] = 4
                 else:
                     context['result'] = 'Incorrect!'
-                    request.session['num_tries'] -= 1
+                    request.session['num_tries'] += 1
             else:
                 context['result'] = 'Country {} does not exist!'.format(guessed_country_name)
-        # If number of tries below 1, disable input form.
+        # If number of tries exceeded, disable input form.
         else:
             context['result'] = 'You are out of tries!'
             request.session['finished'] = True
+            request.session['num_tries'] = 4
         return self.render_to_response(context)

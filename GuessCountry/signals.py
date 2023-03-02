@@ -29,5 +29,3 @@ def create_note_social_login(sender, request, sociallogin, **kwargs):
         content_object=noted_user,
     )
     note.save()
-
-# TODO: write and store a query set of countries to be displayed and display them every day.

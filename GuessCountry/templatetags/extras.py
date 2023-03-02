@@ -3,6 +3,7 @@ from django import template
 from django.utils.html import format_html
 
 from GuessCountry.models import Country
+from GuessCountry.api.serializers import CountrySerializer
 
 user_model = get_user_model()
 
@@ -59,26 +60,43 @@ def endcol():
 
 
 @register.filter
-def country_details(country, name_visible=True):
-    if not isinstance(country, Country):
-        return ''
-    
-    capital = format_html('<p>Capital: {}</p>', country.capital)
-    region = format_html('<p>Region: {}</p>', country.region)
-    population = format_html('<p>Population: {}</p>', country.population)
-    flag = format_html('<p><img src={} class="img-thumbnail"></p>', country.flag)
-    
-    if name_visible:
-        name = format_html('<h2>{}</h2>', country.name)
-        formatted_date = country.modified_at.strftime("%d-%b-%y")
-        last_updated = format_html('<p>Last updated: {}</p>', formatted_date)
+def country_details(country, visibility_level=0):
+    # If country is given as Country instance, return full information on the model instance.
+    if isinstance(country, Country):
+        name = format_html('<h4>Country: {}</h4>', country.name)
+        capital = format_html('<p>Capital: {}</p>', country.capital)
+        region = format_html('<p>Region: {}</p>', country.region)
+        population = format_html('<p>Population: {}</p>', country.population)
+        flag = format_html('<p><img src={} class="img-thumbnail"></p>', country.flag)
+        modified_date = country.modified_at.strftime("%d-%b-%y")
+        last_updated = format_html('<p>Last updated: {}</p>', modified_date)
         
-        return format_html('{}{}{}{}{}{}',
-                           name, capital, region,
-                           population, flag, last_updated)
+        formatted_details = format_html(
+            '{}{}{}{}{}{}',
+            name, capital, region, population, flag, last_updated
+        )
+    # If country is given as a dictionary, return format according to visibility level
+    elif isinstance(country, dict):
+        name = format_html('<h4>Country: {}</h4>', country['name'])
+        capital = format_html('<p>Capital: {}</p>', country['capital'])
+        region = format_html('<p>Region: {}</p>', country['region'])
+        population = format_html('<p>Population: {}</p>', country['population'])
+        flag = format_html('<p><img src={} class="img-thumbnail"></p>', country['flag'])
+        if visibility_level == 0:
+            formatted_details = format_html('{}', population)
+        elif visibility_level == 1:
+            formatted_details = format_html('{}{}', population, region)
+        elif visibility_level == 2:
+            formatted_details = format_html('{}{}{}', population, region, capital)
+        elif visibility_level == 3:
+            formatted_details = format_html('{}{}{}{}', population, region, capital, flag)
+        else:
+            formatted_details = format_html('{}{}{}{}{}', population, region, capital, flag, name)
+            
     else:
-        return format_html('{}{}{}{}',
-                           capital, region, population, flag)
+        formatted_details = ''
+    
+    return formatted_details
 
 
 @register.filter

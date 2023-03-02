@@ -1,7 +1,9 @@
+{% load GuessCountry_tags %}
 <div>
     <h1>{{ result }}</h1>
 </div>
 
+{# if game is over, disable input form and show hidden country #}
 {% if request.session.finished %}
     <div class="col-8 col-md-6 col-xl-3  mx-auto" id="answer-form" hx-swap-oob="true">
         <form>
@@ -14,3 +16,7 @@
         </form>
     </div>
 {% endif %}
+
+<div class="col-sm-5 mx-auto" id="country_details" hx-swap-oob="true">
+    {{ request.session.country_data|country_details:request.session.num_tries }}
+</div>

@@ -20,11 +20,9 @@
     {% row %}
         <div class="col-sm-5 mx-auto" id="results"></div>
     {% endrow %}
-    {% row 'border-bottom' %}
-        {% col %}
-            {% cache 3600 daily_country %}
-                {{ country|country_details:False }}
-            {% endcache %}
-        {% endcol %}
+    {% row 'border-bottom border-top' %}
+        <div class="col-sm-5 mx-auto" id="country_details">
+            <p>{{ request.session.country_data|country_details:request.session.num_tries }}</p>
+        </div>
     {% endrow %}
 {% endblock %}
