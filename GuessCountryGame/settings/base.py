@@ -56,8 +56,7 @@ TEMPLATES = [
             BASE_DIR / 'templates',
             BASE_DIR / 'GuessCountry/templates',
             BASE_DIR / 'custom_auth/templates',
-        ]
-        ,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -207,4 +206,4 @@ CELERY_TIMEZONE = 'Asia/Almaty'
 SESSION_COOKIE_AGE = 24 * 60 * 60  # 1 day
 
 # Game rules
-MAX_NUM_TRIES = 3
+MAX_NUM_TRIES = 4

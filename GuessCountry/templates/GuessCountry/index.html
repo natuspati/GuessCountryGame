@@ -3,26 +3,63 @@
 {% load crispy_forms_tags %}
 {% load cache %}
 {% block content %}
+    {% if request.session.finished %}
+        <div hx-get="{% url 'GuessCountry:country_check' %}" hx-trigger="load" hx-target="#results" hidden>
+            test
+        </div>
+    {% endif %}
+
     {% row %}
-        <div class="col-8 col-md-6 col-xl-3  mx-auto" id="answer-form">
+        <div class="col-8 col-md-6 col-xl-4  mx-auto" id="answer-form">
             <form hx-get="{% url 'GuessCountry:country_check' %}" hx-target="#results">
                 <label for="country_name" class="form-label">Enter country name</label>
-                <div class="input-group mb-3">
+                <div class="input-group mb-2">
                     <input name="country_name" type="text" class="form-control" id="country_name"
                            placeholder="Enter country name">
-                    <input name="mystery_country_pk" type="hidden" class="form-control" id="mystery_country_pk"
-                           value="{{ country.pk }}">
                     <button type="submit" class="btn btn-primary" id="index_submit_btn">Submit</button>
                 </div>
             </form>
         </div>
     {% endrow %}
+
     {% row %}
-        <div class="col-sm-5 mx-auto" id="results"></div>
-    {% endrow %}
-    {% row 'border-bottom border-top' %}
-        <div class="col-sm-5 mx-auto" id="country_details">
-            <p>{{ request.session.country_data|country_details:request.session.num_tries }}</p>
+        <div class="col-8 col-md-6 col-xl-4 mx-auto my-2">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" id="remaining-tries-bar"
+                     style="width: {{ progress_bar_width }}%"
+                     aria-valuenow="{{ request.session.remaining_tries }}"
+                     aria-valuemin="0"
+                     aria-valuemax="{{ request.session.max_tries }}">
+                </div>
+            </div>
         </div>
     {% endrow %}
+
+    {% row %}
+        <div class="col-8 col-md-6 col-xl-4 mx-auto my-2">
+            <div id="guessed-countries-list">
+            </div>
+        </div>
+    {% endrow %}
+
+    {% row %}
+        <div class="col-8 col-md-6 col-xl-4 mx-auto" id="results"></div>
+    {% endrow %}
+    {% row %}
+        <div class="col-8 col-md-6 col-xl-4 mx-auto ">
+            <div class="card">
+                <div id="country_details">
+                    {{ request.session.country_data|country_details:request.session.remaining_tries }}
+                </div>
+            </div>
+        </div>
+    {% endrow %}
+    {% if debug %}
+        {% row %}
+            <div class="mx-auto my-2">
+                <a class="btn btn-primary" href="{% url 'GuessCountry:reset_session' %}" role="button">
+                    Reset session</a>
+            </div>
+        {% endrow %}
+    {% endif %}
 {% endblock %}

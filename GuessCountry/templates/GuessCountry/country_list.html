@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% load GuessCountry_tags %}
 {% block content %}
-    <h2>List of countries</h2>
-    {% for country in country_list %}
-        <li>
-            <a href="{% url 'game:country_detail' country.slug %}">{{ country.name }}</a>
-        </li>
-    {% endfor %}
+    <div class="col-8 col-md-4 mx-auto">
+        <div class="list-group">
+            {% for country in country_list %}
+                <a class="list-group-item list-group-item-action"
+                   href="{% url 'game:country_detail' country.slug %}">
+                    {{ country.name }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
 {% endblock %}

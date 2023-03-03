@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load GuessCountry_tags %}
 {% block content %}
-    {% row 'border-bottom'%}
-        <div class="col">
-            {{ country|country_details:True }}
+    {% row %}
+        <div class="col-8 col-lg-4 mx-auto">
+            {{ country|country_details }}
         </div>
     {% endrow %}
 {% endblock %}
