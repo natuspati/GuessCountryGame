@@ -11,8 +11,6 @@ from django.utils import timezone
 from GuessCountry.models import Country, Score
 from GuessCountry.api.serializers import CountryShortSerializer
 
-from custom_auth.models import User
-
 import random
 import logging
 
@@ -56,6 +54,7 @@ class IndexView(TemplateView):
         
         context['progress_bar_width'] = int(request.session['remaining_tries'] / settings.MAX_NUM_TRIES * 100)
         request.session['country_data'] = CountryShortSerializer(mystery_country).data
+        
         return self.render_to_response(context)
 
 
@@ -73,7 +72,6 @@ class CountryDetailView(DetailView):
     template_name = 'GuessCountry/country_detail.html'
 
 
-# @method_decorator([cache_page(3600), vary_on_cookie, login_required], name='dispatch')
 class ScoreView(TemplateView):
     template_name = 'GuessCountry/score_detail.html'
     
@@ -84,10 +82,11 @@ class ScoreView(TemplateView):
             context['score_value'] = user_score.value
         except ObjectDoesNotExist:
             context['score_value'] = 'No score'
+
         return self.render_to_response(context)
 
 
-# @method_decorator([cache_page(24 * 60 * 60), staff_member_required], name='dispatch')
+@method_decorator([cache_page(24 * 60 * 60), staff_member_required], name='dispatch')
 class ScoreboardView(ListView):
     model = Score
     queryset = Score.objects.order_by('-value')

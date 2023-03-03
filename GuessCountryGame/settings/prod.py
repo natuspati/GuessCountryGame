@@ -15,22 +15,23 @@ EMAIL_HOST_USER = values.SecretValue()
 EMAIL_HOST_PASSWORD = values.SecretValue()
 SERVER_EMAIL = values.SecretValue()
 
-# Use memcached with fallback file cache in production settings
+# Use redis with fallback file cache in production settings
 CACHES = {
     'default': {
         'BACKEND': 'cache_fallback.FallbackCache',
     },
     
     'main_cache': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': '/var/memcached.sock',
-        'TIMEOUT': 600,
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
     },
     'fallback_cache': {
         'BACKEND':
             'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': '/var/django_cache',
-        'TIMEOUT': 600,
     },
 }
 

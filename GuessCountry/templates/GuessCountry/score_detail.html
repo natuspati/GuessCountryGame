@@ -4,7 +4,9 @@
 {% block content %}
     {% row %}
         <p>Logged in as {{ request.user }}.</p>
-{#        <p><a href="{% url 'logout' %}">Log Out</a></p>#}
         <p>Score: {{ score_value }}</p>
+    {% endrow %}
+    {% row %}
+        <p>TEST CACHE: {{ testtime }}</p>
     {% endrow %}
 {% endblock content %}
