@@ -1,11 +1,12 @@
 from pathlib import Path
-from configurations import values
+import os
+import environs
 import dj_database_url
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+env = environs.Env()
+environs.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -159,7 +160,7 @@ LOGGING = {
     },
 }
 
-ADMINS = values.SingleNestedTupleValue()
+ADMINS = env.list('DJANGO_ADMINS')
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
