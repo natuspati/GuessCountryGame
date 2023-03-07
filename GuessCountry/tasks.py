@@ -17,18 +17,13 @@ def remove_inactive_users():
     ).delete()
 
 
-@shared_task(name='debug_task')
-def debug_task():
-    print('DEBUG MESSAGE')
-
-
 @shared_task(name='clear_sessions')
 def clear_sessions():
     management.call_command("clearsessions", verbosity=0)
 
 
 @shared_task(name='reset_countries')
-def reset_countries_dates():
+def reset_countries_dates(create_next=True):
     # Calculate the next date to schedule this task
     today = timezone.now()
     country_set = Country.objects.all().order_by('?')
@@ -40,15 +35,16 @@ def reset_countries_dates():
         country.to_be_used_at = today
         country.save()
     
-    # Create next Periodic Task to go off only once
-    schedule, created = IntervalSchedule.objects.get_or_create(
-        every=number_of_countries,
-        period=IntervalSchedule.DAYS,
-    )
-    PeriodicTask.objects.create(
-        interval=schedule,
-        name='Reset dates, created: {}, next: {}'.format(timezone.now().strftime('%Y/%m/%d'),
-                                                         today.strftime('%Y/%m/%d')),
-        task='reset_countries',
-        one_off=True,
-    )
+    if create_next:
+        # Create next Periodic Task to go off only once
+        schedule, created = IntervalSchedule.objects.get_or_create(
+            every=number_of_countries,
+            period=IntervalSchedule.DAYS,
+        )
+        PeriodicTask.objects.create(
+            interval=schedule,
+            name='Reset dates, created: {}, next: {}'.format(timezone.now().strftime('%Y/%m/%d'),
+                                                             today.strftime('%Y/%m/%d')),
+            task='reset_countries',
+            one_off=True,
+        )

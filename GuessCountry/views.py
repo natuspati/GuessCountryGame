@@ -34,8 +34,11 @@ class IndexView(TemplateView):
         mystery_country = Country.objects.filter(to_be_used_at=timezone.now()).first()
         if not mystery_country:
             number_of_countries = Country.objects.count()
-            random_idx = random.randrange(0, number_of_countries)
-            mystery_country = Country.objects.all()[random_idx]
+            if number_of_countries == 0:
+                pass
+            else:
+                random_idx = random.randrange(0, number_of_countries)
+                mystery_country = Country.objects.all()[random_idx]
         
         # Check if previous country as the selected mystery country
         try:

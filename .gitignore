@@ -139,3 +139,6 @@ depreciaated/
 
 # Celery
 celerybeat-schedule.db
+
+# Mac meta files
+*.DS_Store

@@ -77,10 +77,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'GuessCountryGame.wsgi.application'
 ASGI_APPLICATION = 'GuessCountryGame.asgi.application'
 
-DATABASES = {
-    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR}/db.sqlite3'),
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
