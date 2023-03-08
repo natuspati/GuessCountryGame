@@ -50,6 +50,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'GuessCountryGame.urls'
 
+DATABASES = {
+    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR}/example-db.sqlite3'),
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
