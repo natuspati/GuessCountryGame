@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('', include('GuessCountry.urls', namespace='game')),
+    path(r'admin/', admin.site.urls),
+    path(r'accounts/', include('allauth.urls')),
+    path('', include('GuessCountry.urls')),
     path('', include('custom_auth.urls', namespace='custom_auth')),
+    path(r'api-auth/', include("rest_framework.urls")),
 ]

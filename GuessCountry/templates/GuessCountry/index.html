@@ -4,14 +4,14 @@
 {% load cache %}
 {% block content %}
     {% if request.session.finished %}
-        <div hx-get="{% url 'GuessCountry:country_check' %}" hx-trigger="load" hx-target="#results" hidden>
+        <div hx-get="{% url 'GuessCountry:country-check' %}" hx-trigger="load" hx-target="#results" hidden>
             test
         </div>
     {% endif %}
 
     {% row %}
         <div class="col-8 col-md-6 col-xl-4  mx-auto" id="answer-form">
-            <form hx-get="{% url 'GuessCountry:country_check' %}" hx-target="#results">
+            <form hx-get="{% url 'GuessCountry:country-check' %}" hx-target="#results">
                 <label for="country_name" class="form-label">Enter country name</label>
                 <div class="input-group mb-2">
                     <input name="country_name" type="text" class="form-control" id="country_name"
@@ -57,7 +57,7 @@
     {% if debug %}
         {% row %}
             <div class="mx-auto my-2">
-                <a class="btn btn-primary" href="{% url 'GuessCountry:reset_session' %}" role="button">
+                <a class="btn btn-primary" href="{% url 'GuessCountry:reset-session' %}" role="button">
                     Reset session</a>
             </div>
         {% endrow %}

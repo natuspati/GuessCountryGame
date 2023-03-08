@@ -61,7 +61,6 @@ class IndexView(TemplateView):
         return self.render_to_response(context)
 
 
-@method_decorator(cache_page(24 * 60 * 60), name='dispatch')
 class CountryListView(ListView):
     model = Country
     queryset = Country.objects.order_by('name')
@@ -69,7 +68,6 @@ class CountryListView(ListView):
     template_name = 'GuessCountry/country_list.html'
 
 
-@method_decorator(cache_page(24 * 60 * 60), name='dispatch')
 class CountryDetailView(DetailView):
     model = Country
     template_name = 'GuessCountry/country_detail.html'

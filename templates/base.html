@@ -38,7 +38,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom border-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'game:index' %}">Guess Country</a>
+            <a class="navbar-brand" href="{% url 'GuessCountry:index' %}">Guess Country</a>
 
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
@@ -49,7 +49,7 @@
             <div class="navbar-collapse collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link mx-2" href="{% url 'game:country_list' %}">
+                        <a class="nav-link mx-2" href="{% url 'GuessCountry:country-list' %}">
                             <i class="fa-solid fa-list"></i>Country List</a>
                     </li>
                     {% if request.user.is_active %}
@@ -66,10 +66,15 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mx-2" href="{% url "admin:index" %}">
-                                <i class="fa-regular fa-screwdriver-wrench"></i>Admin
+                                <i class="fa-solid fa-screwdriver-wrench"></i>Admin
                             </a>
                         </li>
                     {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{% url "GuessCountry:api-root" %}">
+                            <i class="fa-solid fa-code"></i>API
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <form>
                             <input class="form-control" type="text" placeholder="Search a country" aria-label="Search">

@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django_celery_beat',  # Store periodic tasks in database and manage from admin panel.
     
     'rest_framework',
+    'rest_framework.authtoken',
     
     'crispy_forms',
     'crispy_bootstrap5',
@@ -210,3 +211,15 @@ SESSION_CACHE_ALIAS = "default"
 
 # Game rules
 MAX_NUM_TRIES = 4
+
+# DRF
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
+}
