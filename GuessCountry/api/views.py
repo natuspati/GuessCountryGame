@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 
 from GuessCountry.models import Country, Score
-from GuessCountry.api.serializers import CountrySerializer, ScoreSerializer, UserSerializer, LinkedScoreSerializer
+from GuessCountry.api.serializers import CountrySerializer, ScoreSerializer, UserSerializer
 from GuessCountry.api.permissions import ScoreUserModifyOrReadOnly, IsAdminUserForObject
 from custom_auth.models import User
 
