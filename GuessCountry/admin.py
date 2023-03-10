@@ -1,5 +1,5 @@
 from django.contrib import admin
-from GuessCountry.models import Note, Country, Score
+from GuessCountry.models import Note, Country, Score, UserCountryRecord
 
 
 class CountryAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ class CountryAdmin(admin.ModelAdmin):
 admin.site.register(Note)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(Score)
+admin.site.register(UserCountryRecord)

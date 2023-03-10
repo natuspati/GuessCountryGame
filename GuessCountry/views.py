@@ -8,7 +8,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.utils import timezone
 
-from GuessCountry.models import Country, Score
+from GuessCountry.models import Country, Score, UserCountryRecord
+from GuessCountry.signals import daily_game_finished
 from GuessCountry.api.serializers import CountryShortSerializer
 
 import random
@@ -127,20 +128,29 @@ class CountryCheckView(TemplateView):
                             request.session['result'] = 'success'
                             request.session['finished'] = True
                             
-                            if request.user.is_authenticated:
-                                user_score = Score.objects.filter(user_id=request.user.id).first()
-                                user_score.value += 1
-                                user_score.save()
                         else:
-                            # Check if it is the last chance.
-                            if remaining_tries == 1:
+                            # Check if there are still chances.
+                            if remaining_tries > 1:
+                                request.session['result'] = 'wait'
+                            else:
+                                # Failure, return real country data in the context.
                                 request.session['result'] = 'fail'
                                 request.session['finished'] = True
                                 context['country_name'] = request.session['country_data']['name']
-                            else:
-                                request.session['result'] = 'wait'
                             
+                            # Subtract a try for incorrect answer.
                             request.session['remaining_tries'] -= 1
+
+                        # Check if user is authenticated and change their score and guessed countries list.
+                        if request.user.is_authenticated:
+                            user_score = Score.objects.filter(user_id=request.user.id).first()
+                            print('SIGNAL IS SENT!')
+                            daily_game_finished.send(
+                                sender='Mario',
+                                score=user_score,
+                                country=guessed_country,
+                                success=request.session['finished'],
+                            )
         
         context['result'] = request.session['result']
         context['remaining_tries'] = request.session['remaining_tries']

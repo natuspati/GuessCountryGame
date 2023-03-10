@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django import template
 from django.utils.html import format_html
-from django.conf import settings
 
 from GuessCountry.models import Country
 from GuessCountry.api.serializers import CountrySerializer
@@ -9,7 +8,6 @@ from GuessCountry.api.serializers import CountrySerializer
 user_model = get_user_model()
 
 register = template.Library()
-
 
 @register.filter
 def user_details(user, current_user):

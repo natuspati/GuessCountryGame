@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'GuessCountryGame.urls'
 
 DATABASES = {
-    'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR}/example-db.sqlite3'),
+    'default': dj_database_url.config(default=f'postgres://django_admin:password@localhost:5432/example'),
 }
 
 TEMPLATES = [
@@ -187,9 +187,23 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # one day
-ACCOUNT_LOGOUT_REDIRECT_URL = 'GuessCountry:index'
-LOGIN_REDIRECT_URL = 'GuessCountry:score'
+LOGIN_REDIRECT_URL = 'GuessCountry:index'
 LOGOUT_REDIRECT_URL = 'GuessCountry:index'
+ACCOUNT_RATE_LIMITS = {
+    # Change password view (for users already logged in)
+    "change_password": "5/m",
+    # Email management (e.g. add, remove, change primary)
+    "manage_email": "10/m",
+    # Request a password reset, global rate limit per IP
+    "reset_password": "20/m",
+    # Rate limit measured per individual email address
+    "reset_password_email": "5/m",
+    # Password reset (the view the password reset email links to).
+    "reset_password_from_key": "20/m",
+    # Signups.
+    "signup": "20/m",
+    # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
+}
 
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'

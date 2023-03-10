@@ -55,6 +55,7 @@ djangorestframework = "*"
 django-redis = "*"
 environs = "*"
 django-inlinecss = {editable = true, ref = "django4", git = "https://github.com/blocher/django-inlinecss.git"}
+psycopg2 = "*"
 
 [dev-packages]
 
